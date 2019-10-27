@@ -79,16 +79,16 @@ These are fp1 = fp2 = [16,32,64,128,256]
 
 
 The results are as follows
-![fp16](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp16.png)
-![fp32](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp32.png)
-![fp64](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp64.png)
-![fp128](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp128.png)
-![fp256](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp256.png)
+![fp16](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fc16.png)
+![fp32](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fc32.png)
+![fp64](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fc64.png)
+![fp128](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fc128.png)
+![fp256](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fc256.png)
 
 
 ### 5. Best performing agent 
 
-The best performing agent was DQN with Experience replay using network of fp1=fp2 = 64
+The best performing agent was DQN with Experience replay using network of fp1=fp2 = 32
 
 
 # Evaluation and improvement
