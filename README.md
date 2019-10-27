@@ -74,6 +74,40 @@ experience replay is used to feed input sequential batches of tuples into the ne
 
 ### 4. optimize hyperparameters
 
-4 values of fp1 and fp2 has been tested and the number of nodes required has been plotted.
+5 values of fp1 and fp2 has been tested and the number of nodes required has been plotted.
+These are fp1 = fp2 = [16,32,64,128,256]
 
 
+The results are as follows
+![fp16](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp16.png?raw=true)
+![fp32](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp32.png?raw=true)
+![fp64](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp64.png?raw=true)
+![fp128](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp128.png?raw=true)
+![fp256](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp256.png?raw=true)
+
+
+### 5. Best performing agent 
+
+The best performing agent was DQN with Experience replay using network of fp1=fp2 = 64
+
+
+# Evaluation and improvement
+
+Many other improvement can be made if time and resources becomes available
+1. Double Deep Q network
+this prevents some extremely high reward value predicted from inexperienced network. This is implemented by using one set of Q to determine the best action and another set to evaluate that action.
+2. Dueling Agents
+This use 2 streams of network one to estimate state and the other one to estimate advantage for the action. The output of both are then used to calculate the Q values
+The reasoning for this is that the state don't change much across actions however, we need to measure impact of each action hence the advantage function.
+
+3. Prioritized experience replay
+Experience are selected based on a priority value based on magnitude of an error. This will be useful in case a rare state happens
+
+
+# Project started instruction
+
+1.Download environment from this [link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux.zip)
+2.run ``` git clone https://github.com/thanakijwanavit/navigation_rl_agent.git```
+3. ```cd navigation_rl_agent```
+4. ``` pip install -r requirements.txt```
+5. start jupyter notebook and read the file Navigation.ipynb
