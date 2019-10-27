@@ -79,11 +79,11 @@ These are fp1 = fp2 = [16,32,64,128,256]
 
 
 The results are as follows
-![fp16](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp16.png?raw=true)
-![fp32](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp32.png?raw=true)
-![fp64](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp64.png?raw=true)
-![fp128](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp128.png?raw=true)
-![fp256](https://github.com/thanakijwanavit/navigation_rl_agent/blob/master/fp256.png?raw=true)
+![fp16](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp16.png)
+![fp32](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp32.png)
+![fp64](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp64.png)
+![fp128](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp128.png)
+![fp256](https://raw.githubusercontent.com/thanakijwanavit/navigation_rl_agent/master/fp256.png)
 
 
 ### 5. Best performing agent 
@@ -94,13 +94,13 @@ The best performing agent was DQN with Experience replay using network of fp1=fp
 # Evaluation and improvement
 
 Many other improvement can be made if time and resources becomes available
-1. Double Deep Q network
+### 1. Double Deep Q network
 this prevents some extremely high reward value predicted from inexperienced network. This is implemented by using one set of Q to determine the best action and another set to evaluate that action.
-2. Dueling Agents
+### 2. Dueling Agents
 This use 2 streams of network one to estimate state and the other one to estimate advantage for the action. The output of both are then used to calculate the Q values
 The reasoning for this is that the state don't change much across actions however, we need to measure impact of each action hence the advantage function.
 
-3. Prioritized experience replay
+### 3. Prioritized experience replay
 Experience are selected based on a priority value based on magnitude of an error. This will be useful in case a rare state happens
 
 
