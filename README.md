@@ -20,36 +20,60 @@ The state space has 37 dimensions and contains the agent's velocity, along with 
 
 The task is episodic, and in order to solve the environment, your agent must get an average score of +13 over 100 consecutive episodes.
 
-### Getting Started
+## Task
+Build and train an agent to collect bananas in the state space with an input of 37 dimensions in
+[Unity's Banana Collector environment](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#banana-collector)
 
-1. Download the environment from one of the links below.  You need only select the environment that matches your operating system:
-    - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux.zip)
-    - Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana.app.zip)
-    - Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86.zip)
-    - Windows (64-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86_64.zip)
+The goal is to achieve an average score of +13 over 100 episodes
+
+## Approach
+
+### 1. Evaluate state and action spaces
+state is an array of 37 float values, where numbers represent variables include velocity, preception of objects, and colour of precieved object
+
+action space is an integer range from 0 to 4 as described in the introduction section
+
+### 2. Benchmark
+run an agent which make decisions at random in order to establish a baseline benchmark
+```
+env_info = env.reset(train_mode=False)[brain_name] # reset the environment
+state = env_info.vector_observations[0]            # get the current state
+score = 0                                          # initialize the score
+while True:
+    action = np.random.randint(action_size)        # select an action
+    env_info = env.step(action)[brain_name]        # send the action to the environment
+    next_state = env_info.vector_observations[0]   # get the next state
+    reward = env_info.rewards[0]                   # get the reward
+    done = env_info.local_done[0]                  # see if episode has finished
+    score += reward                                # update the score
+    state = next_state                             # roll over the state to next time step
+    if done:                                       # exit loop if episode finished
+        break
     
-    (_For Windows users_) Check out [this link](https://support.microsoft.com/en-us/help/827218/how-to-determine-whether-a-computer-is-running-a-32-bit-version-or-64) if you need help with determining if your computer is running a 32-bit version or 64-bit version of the Windows operating system.
+print("Score: {}".format(score)) 
+```
+This agent seems to give a score between -1 and 1. it will never get 13 which is the require score to consider the task solved
 
-    (_For AWS_) If you'd like to train the agent on AWS (and have not [enabled a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md)), then please use [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux_NoVis.zip) to obtain the environment.
+### 3. Construct Q agent and alternative algorithms
 
-2. Place the file in the DRLND GitHub repository, in the `p1_navigation/` folder, and unzip (or decompress) the file. 
+Deep Q agent uses a policy to decide on action. The backend of deep Q is a neural network,
+which is trained by simulation over the game space
 
-### Instructions
+### Q and reward function
+A simple Q function is used to generate a reward for each possible state and that reward is used as policy for the agent to choose action from.
 
-Follow the instructions in `Navigation.ipynb` to get started with training your own agent!  
+Reward = Q(s,a)
 
-### (Optional) Challenge: Learning from Pixels
+There are various Q functions that are well researched and has good proven track record
+However, deep Q network is the one chosen due to the success rate.
 
-After you have successfully completed the project, if you're looking for an additional challenge, you have come to the right place!  In the project, your agent learned from information such as its velocity, along with ray-based perception of objects around its forward direction.  A more challenging task would be to learn directly from pixels!
+### Deep Q function
+deep Q function uses a neural network to estimate the action score. This is stored in model.py consists of 2 hidden layers of 64 default node in both hidden layers.
 
-To solve this harder task, you'll need to download a new Unity environment.  This environment is almost identical to the project environment, where the only difference is that the state is an 84 x 84 RGB image, corresponding to the agent's first-person view.  (**Note**: Udacity students should not submit a project with this new environment.)
+experience replay is used to feed input sequential batches of tuples into the network. The experience is stored as a class ReplayBuffer implemented in dqn_agent.py. Experience is stored after every pass of network decision step
 
-You need only select the environment that matches your operating system:
-- Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/VisualBanana_Linux.zip)
-- Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/VisualBanana.app.zip)
-- Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/VisualBanana_Windows_x86.zip)
-- Windows (64-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/VisualBanana_Windows_x86_64.zip)
+### 4. optimize hyperparameters
 
-Then, place the file in the `p1_navigation/` folder in the DRLND GitHub repository, and unzip (or decompress) the file.  Next, open `Navigation_Pixels.ipynb` and follow the instructions to learn how to use the Python API to control the agent.
+4 values of fp1 and fp2 has been tested and the number of nodes required has been plotted.
 
-(_For AWS_) If you'd like to train the agent on AWS, you must follow the instructions to [set up X Server](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above.
+
